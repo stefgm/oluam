@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Grid</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #c3f3ef;
+            min-height: 100vh;
+            padding: 15px;
+        }
+
+        .grid-container {
+            max-width: 400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .app-icon {
+            position: relative;
+            border: none;
+            border-radius: 20%;
+            overflow: hidden;
+            cursor: pointer;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            aspect-ratio: 1/1;
+            width: 100%;
+        }
+
+        /* Row 1 */
+        .app-icon:nth-child(1) {
+            grid-column: 1;
+        }
+        .app-icon:nth-child(2) {
+            grid-column: 2;
+        }
+        .app-icon:nth-child(3) {
+            grid-column: 3;
+        }
+
+        /* Row 2: Big middle icon */
+        .app-icon:nth-child(4) {
+            grid-column: 1;
+        }
+        .app-icon:nth-child(5) {
+            grid-column: 2;
+        }
+        .app-icon:nth-child(6) {
+            grid-column: 3;
+        }
+
+        /* Row 3: Large subway surfer icon */
+        .app-icon:nth-child(7) {
+            grid-column: 1 / span 2;
+            grid-row: span 2;
+        }
+        .app-icon:nth-child(8) {
+            grid-column: 3;
+        }
+        .app-icon:nth-child(9) {
+            grid-column: 3;
+        }
+
+        /* Row 4 */
+        .app-icon:nth-child(10) {
+            grid-column: 1;
+        }
+        .app-icon:nth-child(11) {
+            grid-column: 2;
+        }
+        .app-icon:nth-child(12) {
+            grid-column: 3;
+        }
+
+        /* Row 5: Large tetris icon */
+        .app-icon:nth-child(13) {
+            grid-column: 1;
+        }
+        .app-icon:nth-child(14) {
+            grid-column: 2 / span 2;
+            grid-row: span 2;
+        }
+
+        /* Last icon */
+        .app-icon:nth-child(15) {
+            grid-column: 1;
+        }
+
+        .app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .app-icon.large {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .webview-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            z-index: 1000;
+            display: none;
+        }
+
+        .webview-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-container">
+        <!-- Row 1 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 1">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game2.png" alt="Game 2">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 3">
+        </button>
+
+        <!-- Row 2 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 4">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 5">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 6">
+        </button>
+
+        <!-- Row 3-4 (Large icon spans 2 rows) -->
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 7">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 8">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 9">
+        </button>
+
+        <!-- Row 4-5 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 10">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 11">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 12">
+        </button>
+
+        <!-- Row 5-6 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 13">
+        </button>
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 14">
+        </button>
+
+        <!-- Last icon -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 15">
+        </button>
+
+        //PART 2
+
+        
+        <!-- Row 1 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 1">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game2.png" alt="Game 2">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 3">
+        </button>
+
+        <!-- Row 2 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 4">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 5">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 6">
+        </button>
+
+        <!-- Row 3-4 (Large icon spans 2 rows) -->
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 7">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 8">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 9">
+        </button>
+
+        <!-- Row 4-5 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 10">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 11">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 12">
+        </button>
+
+        <!-- Row 5-6 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 13">
+        </button>
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 14">
+        </button>
+
+        //PART3
+
+
+        
+        <!-- Row 1 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 1">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game2.png" alt="Game 2">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 3">
+        </button>
+
+        <!-- Row 2 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 4">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 5">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 6">
+        </button>
+
+        <!-- Row 3-4 (Large icon spans 2 rows) -->
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 7">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 8">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 9">
+        </button>
+
+        <!-- Row 4-5 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 10">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 11">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 12">
+        </button>
+
+        <!-- Row 5-6 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 13">
+        </button>
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 14">
+        </button>
+
+
+        /PART4
+
+        
+        <!-- Row 1 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 1">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game2.png" alt="Game 2">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 3">
+        </button>
+
+        <!-- Row 2 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 4">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 5">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 6">
+        </button>
+
+        <!-- Row 3-4 (Large icon spans 2 rows) -->
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 7">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 8">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 9">
+        </button>
+
+        <!-- Row 4-5 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 10">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 11">
+        </button>
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game3.png" alt="Game 12">
+        </button>
+
+        <!-- Row 5-6 -->
+        <button class="app-icon" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game1.png" alt="Game 13">
+        </button>
+        <button class="app-icon large" data-game-url="https://html5.gamedistribution.com/37145d0de8e24cb2be09a04322a35986/?gd_sdk_referrer_url=https://gamedistribution.com/games/knockout-dudes/?gd_sdk_referrer_url=https://www.oluam.tiiny.site">
+            <img src="images/game.png" alt="Game 14">
+        </button>
+
+
+
+
+        
+    </div>
+
+    <div class="webview-container">
+        <iframe class="webview-iframe" frameborder="0"></iframe>
+    </div>
+    
+    <button class="back-button">Go Back</button>
+
+    <script>
+        const gameButtons = document.querySelectorAll('.app-icon');
+        const webviewContainer = document.querySelector('.webview-container');
+        const webviewIframe = document.querySelector('.webview-iframe');
+        const backButton = document.querySelector('.back-button');
+
+        gameButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const gameUrl = button.getAttribute('data-game-url');
+                webviewIframe.src = gameUrl;
+                webviewContainer.style.display = 'block';
+                backButton.style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        backButton.addEventListener('click', () => {
+            webviewContainer.style.display = 'none';
+            backButton.style.display = 'none';
+            webviewIframe.src = '';
+            document.body.style.overflow = 'auto';
+        });
+    </script>
+</body>
+</html>
